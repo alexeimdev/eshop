@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const EShop = require('../databases/eshop');
+const Category = require('../models/Category');
 
 const router = Router();
 
@@ -7,14 +8,18 @@ const eShop = new EShop();
 
 router.get('/', async (req, res) => {
     const allCategories = await eShop.getAllCategories();
-    console.info('[server]', 'allCategories', allCategories);
-    res.json(allCategories);
+    const allCategoriesModel = allCategories.map(category => new Category(
+        category["category_id"], 
+        category["category_name"]));
+    res.json(allCategoriesModel);
 });
 
 router.get('/:id', async (req, res) => {
     const category = await eShop.getCategory(req.params.id);
-    console.info('[server]', 'category', category);
-    res.json(category);
+    const categoryModel = new Category(
+        category[0]["category_id"], 
+        category[0]["category_name"]);
+    res.json(categoryModel);
 });
 
 module.exports = router;
