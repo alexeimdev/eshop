@@ -1,13 +1,13 @@
-const EShop = require('././databases/eshop');
+const express = require('express');
+const dotenv = require('dotenv').config();
+const api = require('./api');
 
-async function main () {
-    const eShop = new EShop('postgres://postgres:postgres@127.0.0.1:5432/eshop');
-    
-    const allCategories = await eShop.getAllCategories();
-    console.info('allCategories', allCategories);
+const HTTP_PORT = process.env.HTTP_PORT || 5000 ;
 
-    const allProducts = await eShop.getAllProducts();
-    console.info('allProducts', allProducts);
-}
+const app = express();
 
-main();
+app.use(api);
+
+app.listen(HTTP_PORT, () => {
+    console.log('[server]', 'server is up on port', HTTP_PORT);
+})
