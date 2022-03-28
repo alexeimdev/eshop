@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
     const allCategoriesModel = allCategories.map(category => new Category(
         category["category_id"], 
         category["category_name"]));
+
     res.json(allCategoriesModel);
 });
 
@@ -19,6 +20,7 @@ router.get('/:id', async (req, res) => {
     const categoryModel = new Category(
         category[0]["category_id"], 
         category[0]["category_name"]);
+        
     res.json(categoryModel);
 });
 
