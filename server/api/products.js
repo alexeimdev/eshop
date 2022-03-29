@@ -1,18 +1,16 @@
 const { Router } = require('express');
-const eShop = require('../databases/eshop');
+const productsService = require('../services/productsService');
 
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const allProducts = await eShop.getAllProducts();
-    console.info('[server]', 'allProducts', allProducts);
-    res.json(allProducts);
+    const productsModel = await productsService.getAllProducts();
+    res.json(productsModel);
 });
 
 router.get('/:id', async (req, res) => {
-    const product = await eShop.getProduct(req.params.id);
-    console.info('[server]', 'product', product);
-    res.json(product);
+    const productModel = await productsService.getProduct(req.params.id);
+    res.json(productModel);
 });
 
 module.exports = router;
