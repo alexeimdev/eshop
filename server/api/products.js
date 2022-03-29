@@ -13,4 +13,9 @@ router.get('/:id', async (req, res) => {
     res.json(productModel);
 });
 
+router.delete('/:id', async (req, res) => {
+    const result = await productsService.deleteProduct(req.params.id);
+    res.json(result);
+});
+
 module.exports = router;
