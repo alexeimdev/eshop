@@ -36,6 +36,10 @@ const productsService = {
         const productModelFullDetails = new ProductFullDetailsModel(product);
         return productModelFullDetails;
     },
+    createProduct: async function (product) {
+        const newProductId = await eShop.createProduct(product);
+        return newProductId;
+    },
     updateProduct: async function (product) {
         const modifiedProductId = await eShop.updateProduct(product);
         return modifiedProductId;

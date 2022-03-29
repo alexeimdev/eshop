@@ -18,6 +18,11 @@ router.get('/:id/full-details', async (req, res) => {
     res.json(productFullDetailsModel);
 });
 
+router.post('/', async (req, res) => {
+    const result = await productsService.createProduct(req.body);
+    res.json(result);
+});
+
 router.put('/', async (req, res) => {
     const result = await productsService.updateProduct(req.body);
     res.json(result);

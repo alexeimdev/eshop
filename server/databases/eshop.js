@@ -70,6 +70,58 @@ const eShop = (function () {
             `, [productId]);
             return result.rows.at(0);
         },
+        createProduct: async function (product) {
+            /*
+            fetch('http://localhost:5000/api/products', { 
+                method: 'POST',
+                headers:{'Content-type': 'application/json' },
+                body: JSON.stringify({
+                    'name': 'Macbook Pro 14\" new',
+                    'description': 'Macbook Pro 14\" Laptop new',
+                    'quantity': 100,
+                    'price': 5000,
+                    'priceDiscount': 10,
+                    'colorId': 1,
+                    'sellerId': 1,
+                    'currencyId': 1,
+                    'categoryId': 4,
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err));
+            */
+
+            const result = await execQuery(`
+                INSERT INTO public.tbl_products (   
+                    product_name,
+                    product_description,
+                    product_quantity,
+                    product_price,
+                    product_price_discount,
+                    product_color_id,
+                    seller_id,
+                    currency_id,
+                    category_id
+                )
+                VALUES(
+                    $1, $2, $3, $4, $5, $6, $7, $8, $9
+                )
+                RETURNING product_id;
+            `, [
+                product.name,
+                product.description,
+                product.quantity,
+                product.price,
+                product.priceDiscount,
+                product.colorId,
+                product.sellerId,
+                product.currencyId,
+                product.categoryId,
+            ])
+            
+            return result.rowCount > 0 ? result.rows.at(0).product_id : null;
+        },
         updateProduct: async function (product) {
             /*
             fetch('http://localhost:5000/api/products', { 
@@ -108,6 +160,7 @@ const eShop = (function () {
                     category_id = $10,
                     update_date = now()
                 WHERE product_id = $1
+                RETURNING product_id;
             `, [
                 product.id,
                 product.name,
@@ -121,15 +174,16 @@ const eShop = (function () {
                 product.categoryId,
             ])
             
-            return result.rowCount > 0 ? product.id : null;
+            return result.rowCount > 0 ? result.rows.at(0).product_id : null;
         },
         deleteProduct: async function (productId) {
             const result = await execQuery(`
                 UPDATE public.tbl_products
                 SET is_deleted = true
                 WHERE product_id = $1
+                RETURNING product_id;
             `, [productId]);
-            return result.rowCount > 0 ? productId : null;
+            return result.rowCount > 0 ? result.rows.at(0).product_id : null;
         },
         getAllCategories: async function () {
             const result = await execQuery(`
