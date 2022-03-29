@@ -1,0 +1,11 @@
+.container {
+    display: grid;
+    grid-template-areas: "transactions-list transaction-details";
+
+    .transactionsListWrapper {
+        grid-area: "transactions-list";
+    }
+    .transactionDetailsWrapper {
+        grid-area: "transaction-details";
+    }
+}

@@ -1,0 +1,27 @@
+.layout {
+    display: grid;
+    grid-template-rows: auto;
+    height: 100%;
+    width: 100%;
+}
+
+.header {
+    height: 60px;
+    background-color: gray;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+
+    .headerTitle {
+        font-size: 1.5em;
+        color: white;
+    }
+}
+
+.main {
+    overflow: scroll;
+    background-color: white;
+}
+
+.footer {
+}
