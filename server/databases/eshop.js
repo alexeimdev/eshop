@@ -20,7 +20,7 @@ const eShop = (function () {
             if (!client?._connected) {
                 await client.connect();
             }
-            
+
             const result = await client.query(query, params);
             if (result.rows > 1) {
                 return result.rows;
@@ -61,16 +61,18 @@ const eShop = (function () {
                 LIMIT 1
             `, [productId])
         },
-        getProduct: function (productId) {
+        updateProduct: function (product) {
             return execQuery(`
-                SELECT
-                    products.*, 
-                    colors.color_name,
-                    colors.color_hex_code,
-                    currencies.currency_symbol
-                FROM tbl_products as products
-                LEFT JOIN tbl_colors as colors on products.product_color_id = colors.color_id
-                LEFT JOIN tbl_currencies as currencies on products.currency_id = currencies.currency_id
+                UPDATE TABLE tbl_products products
+                SET 
+                VALUES
+                WHERE products.product_id = $1
+            `, [product.productId])
+        },
+        deleteProduct: function (productId) {
+            return execQuery(`
+                DELETE FROM TABLE tbl_products
+                WHERE product_id = $1
             `, [productId])
         },
         getAllCategories: function () {
