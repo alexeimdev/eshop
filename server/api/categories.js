@@ -1,10 +1,8 @@
 const { Router } = require('express');
-const EShop = require('../databases/eshop');
+const eShop = require('../databases/eshop');
 const Category = require('../models/Category');
 
 const router = Router();
-
-const eShop = new EShop();
 
 router.get('/', async (req, res) => {
     const allCategories = await eShop.getAllCategories();
