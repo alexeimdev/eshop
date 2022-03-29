@@ -10,12 +10,12 @@ class EShop {
         this.client = new Client(connectionString);
     }
 
-    #execQuery = async (query) => {
+    #execQuery = async (query, params = []) => {
         try {
             if (!this.client?._connected) {
                 await this.client.connect();
             }
-            const result = await this.client.query(query);
+            const result = await this.client.query(query, params);
             return result.rows;
         } catch (error) {
             throw error;
@@ -35,8 +35,8 @@ class EShop {
         return this.#execQuery(`
             select *
             from tbl_categories
-            where category_id = ${id}
-        `)
+            where category_id = $1
+        `, [id])
     }
 
     getAllProducts() {
@@ -72,8 +72,8 @@ class EShop {
             left join tbl_sellers as sellers on products.seller_id = sellers.seller_id
             left join tbl_categories as categories on products.category_id = categories.category_id
             left join tbl_currencies as currencies on products.currency_id = currencies.currency_id
-            where products.product_id = ${productId}
-        `)
+            where products.product_id = $1
+        `, [productId])
     }
 
 }
