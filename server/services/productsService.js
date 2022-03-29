@@ -31,12 +31,12 @@ const productsService = {
         return productsModel;
     },
     updateProduct: async function (product) {
-        const productId = await eShop.updateProduct(productId);
-        return productId;
+        const modifiedProductId = await eShop.updateProduct(product);
+        return modifiedProductId;
     },
     deleteProduct: async function (productId) {
-        const productId = await eShop.deleteProduct(productId);
-        return productId;
+        const deletedProductId = await eShop.deleteProduct(productId);
+        return deletedProductId;
     },
 }
 
