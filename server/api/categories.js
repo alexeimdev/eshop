@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const eShop = require('../databases/eshop');
-const Category = require('../models/Category');
+const Category = require('../models/CategoryModel');
 
 const router = Router();
 

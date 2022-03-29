@@ -13,6 +13,16 @@ router.get('/:id', async (req, res) => {
     res.json(productModel);
 });
 
+router.get('/:id/full-details', async (req, res) => {
+    const productFullDetailsModel = await productsService.getProductFullDetails(req.params.id);
+    res.json(productFullDetailsModel);
+});
+
+router.put('/', async (req, res) => {
+    const result = await productsService.updateProduct(req.body);
+    res.json(result);
+});
+
 router.delete('/:id', async (req, res) => {
     const result = await productsService.deleteProduct(req.params.id);
     res.json(result);

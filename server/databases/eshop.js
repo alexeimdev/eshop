@@ -55,14 +55,73 @@ const eShop = (function () {
             `, [productId]);
             return result.rows.at(0);
         },
-        updateProduct: async function (product) {
+        getProductFullDetails: async function (productId) {
             const result = await execQuery(`
-                UPDATE tbl_products products
+                SELECT
+                    products.*, 
+                    colors.color_name,
+                    colors.color_hex_code,
+                    currencies.currency_symbol
+                FROM tbl_products as products
+                LEFT JOIN tbl_colors as colors on products.product_color_id = colors.color_id
+                LEFT JOIN tbl_currencies as currencies on products.currency_id = currencies.currency_id
+                WHERE products.product_id = $1 AND products.is_deleted = false
+                LIMIT 1
+            `, [productId]);
+            return result.rows.at(0);
+        },
+        updateProduct: async function (product) {
+            /*
+            fetch('http://localhost:5000/api/products', { 
+                method: 'PUT',
+                headers:{'Content-type': 'application/json' },
+                body: JSON.stringify({
+                    'id': 4,
+                    'name': 'Macbook Pro 14\" modified',
+                    'description': 'Macbook Pro 14\" Laptop modified',
+                    'quantity': 100,
+                    'price': 5000,
+                    'priceDisscount': 10,
+                    'colorId': 1,
+                    'sellerId': 1,
+                    'currencyId': 1,
+                    'categoryId': 4,
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err));
+            */
+
+            const result = await execQuery(`
+                UPDATE public.tbl_products
                 SET 
-                VALUES
-                WHERE products.product_id = $1
-            `, [product.productId])
-            //return result
+                    product_id = $1,
+                    product_name = $2,
+                    product_description = $3,
+                    product_quantity = $4,
+                    product_price = $5,
+                    product_price_disscount = $6,
+                    product_color_id = $7,
+                    seller_id = $8,
+                    currency_id = $9,
+                    category_id = $10,
+                    update_date = now()
+                WHERE product_id = $1
+            `, [
+                product.id,
+                product.name,
+                product.description,
+                product.quantity,
+                product.price,
+                product.priceDisscount,
+                product.colorId,
+                product.sellerId,
+                product.currencyId,
+                product.categoryId,
+            ])
+            
+            return result.rowCount > 0 ? product.id : null;
         },
         deleteProduct: async function (productId) {
             const result = await execQuery(`

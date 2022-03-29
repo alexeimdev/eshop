@@ -1,3 +1,5 @@
+const productsHelper = require('../helpers/products');
+
 class ProductModel {
     constructor(
         id, 
@@ -14,8 +16,9 @@ class ProductModel {
         this.description = description;
         this.colorName = colorName;
         this.colorHexCode = colorHexCode;
-        this.price = price;
+        this.price = productsHelper.fixPrice(price);
         this.priceDisscount = priceDisscount;
+        this.totalPrice = productsHelper.calculateTotolPrice(price, priceDisscount);
         this.currencySymbol = currencySymbol;
     }
 }

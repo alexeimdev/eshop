@@ -1,5 +1,6 @@
 const eShop = require('../databases/eshop');
-const ProductModel = require('../models/Product');
+const ProductModel = require('../models/ProductModel');
+const ProductFullDetailsModel = require('../models/ProductFullDetailsModel');
 
 const productsService = {
     getAllProducts: async function () {
@@ -29,6 +30,11 @@ const productsService = {
             product["currency_symbol"],
         );
         return productsModel;
+    },
+    getProductFullDetails: async function (productId) {
+        const product = await eShop.getProductFullDetails(productId);
+        const productModelFullDetails = new ProductFullDetailsModel(product);
+        return productModelFullDetails;
     },
     updateProduct: async function (product) {
         const modifiedProductId = await eShop.updateProduct(product);
