@@ -12,7 +12,7 @@ const productsService = {
             product["color_name"],
             product["color_hex_code"],
             product["product_price"],
-            product["product_price_disscount"],
+            product["product_price_discount"],
             product["currency_symbol"],
         ));
         return allProductsModel;
@@ -26,7 +26,7 @@ const productsService = {
             product["color_name"],
             product["color_hex_code"],
             product["product_price"],
-            product["product_price_disscount"],
+            product["product_price_discount"],
             product["currency_symbol"],
         );
         return productsModel;

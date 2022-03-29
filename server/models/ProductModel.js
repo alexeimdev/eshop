@@ -8,7 +8,7 @@ class ProductModel {
         colorName,
         colorHexCode,
         price,
-        priceDisscount,
+        priceDiscount,
         currencySymbol,
     ) {
         this.id = id;
@@ -17,8 +17,8 @@ class ProductModel {
         this.colorName = colorName;
         this.colorHexCode = colorHexCode;
         this.price = productsHelper.fixPrice(price);
-        this.priceDisscount = priceDisscount;
-        this.totalPrice = productsHelper.calculateTotolPrice(price, priceDisscount);
+        this.priceDiscount = priceDiscount;
+        this.totalPrice = productsHelper.calculateTotolPrice(price, priceDiscount);
         this.currencySymbol = currencySymbol;
     }
 }

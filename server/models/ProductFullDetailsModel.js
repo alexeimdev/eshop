@@ -5,7 +5,7 @@ class ProductFullDetailsModel {
         this.product = {
             ...product,
             price: productsHelper.fixPrice(product.price),
-            totalPrice: productsHelper.fixPrice(product.price, product.disscountPrice),
+            totalPrice: productsHelper.fixPrice(product.price, product.priceDiscount),
         }
     }
 }
