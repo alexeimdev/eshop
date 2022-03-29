@@ -22,7 +22,7 @@ const eShop = (function () {
             }
 
             const result = await client.query(query, params);
-            if (result.rows > 1) {
+            if (result.rows.length > 1) {
                 return result.rows;
             } else {
                 return result.rows.at(0);
@@ -45,6 +45,7 @@ const eShop = (function () {
                 FROM tbl_products as products
                 LEFT JOIN tbl_colors as colors on products.product_color_id = colors.color_id
                 LEFT JOIN tbl_currencies as currencies on products.currency_id = currencies.currency_id
+                WHERE products.is_deleted = false
             `)
         },
         getProduct: function (productId) {
@@ -57,7 +58,7 @@ const eShop = (function () {
                 FROM tbl_products as products
                 LEFT JOIN tbl_colors as colors on products.product_color_id = colors.color_id
                 LEFT JOIN tbl_currencies as currencies on products.currency_id = currencies.currency_id
-                WHERE products.product_id = $1 
+                WHERE products.product_id = $1 AND products.is_deleted = false
                 LIMIT 1
             `, [productId])
         },
@@ -71,7 +72,8 @@ const eShop = (function () {
         },
         deleteProduct: function (productId) {
             return execQuery(`
-                DELETE FROM TABLE tbl_products
+                UPDATE TABLE tbl_products
+                SET is_deleted = true
                 WHERE product_id = $1
             `, [productId])
         },
@@ -79,13 +81,14 @@ const eShop = (function () {
             return execQuery(`
                 SELECT *
                 FROM tbl_categories
+                WHERE is_deleted = false
             `)
         },
         getCategory: function (id) {
             return execQuery(`
                 SELECT *
                 FROM tbl_categories
-                WHERE category_id = $1
+                WHERE category_id = $1 AND is_deleted = false
             `, [id])
         },
     }
